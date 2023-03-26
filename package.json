@@ -1,0 +1,21 @@
+{
+  "name": "bookstorage",
+  "version": "1.0.0",
+  "description": "Домашнее задание к занятию «2.1. Express»",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config src/index.js",
+    "start": "pm2 start src/index.js"
+  },
+  "author": "Elena Kuklina",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "pm2": "^5.3.0",
+    "uuid": "^9.0.0"
+  }
+}
