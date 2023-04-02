@@ -9,7 +9,7 @@ const {fileMulter} = require('../middleware');
 
 const {getBooks, createBook} = require('../api');
 
-const {LOGIN, BOOKS, BOOK_BY_ID} = require('../constants/endpoints');
+const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD} = require('../constants/endpoints');
 const statusCode = require('../constants/responseStatusCode');
 
 const {updateStore} = require('../store');
@@ -110,6 +110,29 @@ router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
     statusCode: statusCode.BAD_REQUEST,
     errorMessage: 'Incorrect body',
   });
+});
+
+/**
+ * GET - скачать книгу
+ */
+router.get(BOOK_DOWNLOAD, (req, res) => {
+  const {params} = req;
+  const {id} = params;
+  const book = getBooks(id);
+
+  if (!book) {
+    res.status(statusCode.NOT_FOUND);
+    res.send({message: 'Book not found'});
+
+    return;
+  }
+
+  try {
+    res.download(book.fileBook);
+  } catch (error) {
+    res.status(statusCode.SERVER_ERROR);
+    res.send({message: `Unable to download file by ID ${id}`});
+  }
 });
 
 /**

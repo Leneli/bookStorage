@@ -1,6 +1,6 @@
 const path = require('path');
 
-const publicFolder = path.normalize(`${__dirname}/publik`);
+const publicFolder = path.normalize(`${__dirname}/public`);
 const logFolder = path.normalize(`${__dirname}/logs`);
 const logFileName = 'server.log';
 const logPath = `${logFolder}/${logFileName}`;
