@@ -1,5 +1,9 @@
+const {createStore} = require('./createStore');
 const {getStore} = require('./getStore');
+const {updateStore} = require('./updateStore');
 
-const store = getStore();
-
-module.exports = store;
+module.exports = {
+  createStore,
+  getStore,
+  updateStore,
+};

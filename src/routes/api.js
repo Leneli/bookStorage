@@ -5,12 +5,14 @@
 const express = require('express');
 const router = express.Router();
 
+const {getBooks, createBook} = require('../api');
+
 const {LOGIN, BOOKS, BOOK_BY_ID} = require('../constants/endpoints');
 const statusCode = require('../constants/responseStatusCode');
 
-const Book = require('../entities/book.js');
+const {updateStore} = require('../store');
 
-const store = require('../store');
+const Book = require('../entities/book.js');
 
 /**
  * POST - авторизация пользователя
@@ -24,8 +26,10 @@ router.post(LOGIN, (req, res) => {
  * GET - получить все книги
  */
 router.get(BOOKS, (req, res) => {
+  const books = getBooks();
+
   res.status(statusCode.OK);
-  res.send(store.books);
+  res.send(books);
 });
 
 /**
@@ -33,7 +37,7 @@ router.get(BOOKS, (req, res) => {
  */
 router.get(BOOK_BY_ID, (req, res) => {
   const {id} = req.params;
-  const book = store.books.find((item) => item.id === id);
+  const book = getBooks(id);
 
   if (book) {
     res.status(statusCode.OK);
@@ -66,9 +70,10 @@ router.post(BOOKS, (req, res) => {
     favorite,
     fileCover,
     fileName,
+    fileBook,
   } = body;
 
-  if (title && description && authors && favorite && fileCover && fileName) {
+  if (title && description && authors && favorite && fileCover && fileName && fileBook) {
     const book  = new Book({
       title,
       description,
@@ -76,12 +81,13 @@ router.post(BOOKS, (req, res) => {
       favorite,
       fileCover,
       fileName,
+      fileBook,
     });
 
-    store.books.push(book);
+    const {statusCode: createStatusCode, message} = createBook(book);
 
-    res.status(statusCode.CREATED);
-    res.send(book);
+    res.status(createStatusCode);
+    res.send(createStatusCode === statusCode.CREATED ? book : message);
 
     return;
   }
@@ -108,7 +114,7 @@ router.put(BOOK_BY_ID, (req, res) => {
     return;
   }
 
-  const book = store.books.find((item) => item.id === id);
+  const book = getBooks(id);
 
   if (!book) {
     res.status(statusCode.NOT_FOUND);
@@ -117,6 +123,7 @@ router.put(BOOK_BY_ID, (req, res) => {
     return;
   }
 
+  // TODO: Update store
   book = {...book, ...body};
 
   res.status(statusCode.OK);
@@ -128,7 +135,8 @@ router.put(BOOK_BY_ID, (req, res) => {
  */
 router.delete(BOOK_BY_ID, (req, res) => {
   const {id} = params;
-  const bookIndex = store.books.findIndex((item) => item.id === id);
+  const books = getBooks();
+  const bookIndex = books.findIndex((item) => item.id === id);
 
   if (bookIndex < 0) {
     res.status(statusCode.NOT_FOUND);
@@ -137,7 +145,8 @@ router.delete(BOOK_BY_ID, (req, res) => {
     return;
   }
 
-  store.books.splice(bookIndex, 1);
+  // TODO: Delete book fron store
+  // books.splice(bookIndex, 1);
 
   res.status(statusCode.OK);
   res.send({message: 'The book is successfully deleted'})

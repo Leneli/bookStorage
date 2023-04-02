@@ -1,33 +1,21 @@
 const fs = require('fs');
-const path = require('path');
 
 const config = require('../../config');
+const initStore = require('./initStore');
 
 const getStore = () => {
-  let store = {
-    books: [],
-  };
-  const folderPath = path.normalize(`${__dirname}/${config.store_dir_name}`);
-  const filePath = `${folderPath}/${config.store_books_list_file_name}`;
+  let store = {...initStore};
 
-  fs.access(filePath, fs.constants.R_OK, (err) => {
-    if (!err) {
-      try {
-        const jsonString = fs.readFileSync(filePath, 'utf-8') || '{}';
-        store = JSON.parse(jsonString);
-      } catch (error) {
-        console.error("🚀 ~ file: getStore.js:19 ~ fs.access ~ error:", error);
-      }
-    } else {
-      try {
-        fs.mkdirSync(folderPath);
-        fs.openSync(filePath, 'w');
-        fs.appendFileSync(filePath, JSON.stringify(store, null, '  '), 'utf-8');
-      } catch (error) {
-        console.error("🚀 ~ file: getStore.js:26 ~ fs.access ~ error:", error, err);
-      }
-    }
-  });
+  console.log("🚀 ~ Read books storage from file ", config.store_books_path);
+
+  try {
+    const storeFile = fs.readFileSync(config.store_books_path, 'utf-8');
+    !!storeFile && (store = JSON.parse(storeFile));
+
+    console.log("🚀 ~ File read successfully!");
+  } catch (error) {
+    console.log("🚀 ~ file: getStore.js:17 ~ getStore ~ File read error: ", error);
+  }
 
   return store;
 };
