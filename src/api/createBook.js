@@ -12,7 +12,7 @@ const createBook = (book) => {
     store.books.push(book);
     updateStore(store);
   } catch (error) {
-    console.error("🚀 ~ file: createBook.js:16 ~ createBook ~ error:", error);
+    console.error("🚀 ~ file: createBook.js:15 ~ createBook ~ error:", error);
 
     result.statusCode = statusCode.SERVER_ERROR;
     result.message = error?.message || 'Failed';

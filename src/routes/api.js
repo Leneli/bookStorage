@@ -5,6 +5,8 @@
 const express = require('express');
 const router = express.Router();
 
+const {fileMulter} = require('../middleware');
+
 const {getBooks, createBook} = require('../api');
 
 const {LOGIN, BOOKS, BOOK_BY_ID} = require('../constants/endpoints');
@@ -53,7 +55,7 @@ router.get(BOOK_BY_ID, (req, res) => {
 /**
  * POST - создать книгу
  */
-router.post(BOOKS, (req, res) => {
+router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
   const {body} = req;
 
   if (!body) {
@@ -69,19 +71,29 @@ router.post(BOOKS, (req, res) => {
     authors,
     favorite,
     fileCover,
-    fileName,
-    fileBook,
   } = body;
+  let fileBookPath = '';
+  let fileBookName = '';
+  let bookTitle = title || '';
 
-  if (title && description && authors && favorite && fileCover && fileName && fileBook) {
+  if(req.file) {
+    const {path, originalname, filename} = req.file;
+
+    fileBookPath = path;
+    fileBookName = filename;
+
+    if (!bookTitle) bookTitle = originalname;
+  }
+
+  if (fileBookPath && bookTitle) {
     const book  = new Book({
-      title,
+      title: bookTitle,
       description,
       authors,
       favorite,
       fileCover,
-      fileName,
-      fileBook,
+      fileName: fileBookName,
+      fileBook: fileBookPath,
     });
 
     const {statusCode: createStatusCode, message} = createBook(book);

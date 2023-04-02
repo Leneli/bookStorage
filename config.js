@@ -1,5 +1,6 @@
 const path = require('path');
 
+const publicFolder = path.normalize(`${__dirname}/publik`);
 const logFolder = path.normalize(`${__dirname}/logs`);
 const logFileName = 'server.log';
 const logPath = `${logFolder}/${logFileName}`;
@@ -15,4 +16,6 @@ module.exports = {
   store_dir_name: storeFolderPath,
   store_books_list_file_name: storeFileName,
   store_books_path: storeFilePath,
+  public_dir: publicFolder,
+  public_books_dir: `${publicFolder}/books`,
 }
