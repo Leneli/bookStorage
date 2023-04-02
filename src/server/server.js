@@ -6,7 +6,6 @@ const endpoints = require('../constants/endpoints');
 
 const {errorHandler, logger} = require('../middleware');
 
-// TODO: store to file
 // TODO: book create
 // TODO: book download
 

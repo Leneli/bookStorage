@@ -2,12 +2,14 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
+const config = require('../../config');
+
 const logger = (req, res, next) => {
   const now = new Date().toDateString();
   const {url, method} = req;
   const log = `${now}: ${method} ${url}`;
-  const logFolder = path.normalize(`${__dirname}/../../logs`);
-  const logPath = `${logFolder}/server.log`;
+  const logFolder = path.normalize(`${__dirname}/${config.logs_dir_name}`);
+  const logPath = `${logFolder}/${config.logs_file_name}`;
 
   fs.access(logFolder, fs.constants.R_OK, (err) => {
     if (!err) {
