@@ -74,6 +74,7 @@ router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
   } = body;
   let fileBookPath = '';
   let fileBookName = '';
+  let fileBookOriginalName = '';
   let bookTitle = title || '';
 
   if(req.file) {
@@ -81,6 +82,7 @@ router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
 
     fileBookPath = path;
     fileBookName = filename;
+    fileBookOriginalName = originalname;
 
     if (!bookTitle) bookTitle = originalname;
   }
@@ -94,6 +96,7 @@ router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
       fileCover,
       fileName: fileBookName,
       fileBook: fileBookPath,
+      fileBookOriginalName,
     });
 
     const {statusCode: createStatusCode, message} = createBook(book);
@@ -128,7 +131,7 @@ router.get(BOOK_DOWNLOAD, (req, res) => {
   }
 
   try {
-    res.download(book.fileBook);
+    res.download(book.fileBook, book.fileBookOriginalName);
   } catch (error) {
     res.status(statusCode.SERVER_ERROR);
     res.send({message: `Unable to download file by ID ${id}`});

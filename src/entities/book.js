@@ -9,6 +9,7 @@ module.exports = class Book {
     fileCover,
     fileName,
     fileBook,
+    fileBookOriginalName,
   }) {
     this.id = uuid();
     this.title = title;
@@ -18,5 +19,6 @@ module.exports = class Book {
     this.fileCover = fileCover,
     this.fileName = fileName;
     this.fileBook = fileBook;
+    this.fileBookOriginalName = fileBookOriginalName;
   }
 };
