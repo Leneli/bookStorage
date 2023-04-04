@@ -1,0 +1,64 @@
+body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: #003153;
+}
+
+h1 {
+  font-weight: 500;
+}
+
+h4 {
+  margin: 1em 0;
+  text-transform: lowercase;
+  font-size: 1.4em;
+  font-variant: small-caps;
+  font-weight: 800;
+}
+
+h5 {
+  font-weight: 900;
+  text-decoration: underline;
+}
+
+h6 {
+  font-size: 0.7em;
+  font-weight: 600;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+p {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  padding: 16px;
+  padding-bottom: 24px;
+  align-items: baseline;
+  justify-content: space-between;
+  background-color: #003153;
+}
+
+.logo__text {
+  margin: 0;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  color: #FFF;
+}
+
+.nav__link {
+  padding: 10px;
+  color: #FFF;
+}
+
+.nav__link:hover {
+  text-decoration: none;
+}
+
+.nav__link.active {
+  font-weight: bold;
+  text-decoration: none;
+}

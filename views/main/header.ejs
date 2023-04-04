@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="logo">
+    <h1 class="logo__text"><%= title %></h1>
+  </div>
+
+  <nav class="nav">
+    <% navigation.map((navItem) => { %>
+      <a class="nav__link <%= navItem.url === currentUrl ? 'active' : '' %>" href="<%= navItem.url %>">
+        <%= navItem.name %>
+      </a>
+    <% }) %>
+  </nav>
+</header>

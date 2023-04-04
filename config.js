@@ -1,6 +1,7 @@
 const path = require('path');
 
 const publicFolder = path.normalize(`${__dirname}/public`);
+const cssFolder = path.normalize(`${__dirname}/css`);
 const logFolder = path.normalize(`${__dirname}/logs`);
 const logFileName = 'server.log';
 const logPath = `${logFolder}/${logFileName}`;
@@ -9,6 +10,7 @@ const storeFileName = 'books.json';
 const storeFilePath = `${storeFolderPath}/${storeFileName}`;
 
 module.exports = {
+  site_name: 'Books Storage',
   port: process.env.PORT || 3000,
   logs_dir_name: logFolder,
   logs_file_name: logFileName,
@@ -18,4 +20,5 @@ module.exports = {
   store_books_path: storeFilePath,
   public_dir: publicFolder,
   public_books_dir: `${publicFolder}/books`,
+  css_folder: cssFolder,
 }

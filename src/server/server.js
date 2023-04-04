@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const config = require('../../config');
+
 const {mainRouter, apiRouter} = require('../routes');
 const endpoints = require('../constants/endpoints');
 
@@ -15,6 +17,13 @@ app.use(express.json());
  * Logger
  */
 app.use(logger);
+
+/**
+ * View (ejs)
+ */
+app.use(express.urlencoded());
+app.use(express.static(config.css_folder));
+app.set('view engine', 'ejs');
 
 /**
  * Routes
