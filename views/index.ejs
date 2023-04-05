@@ -2,7 +2,19 @@
 <%- include('./main/header', {title, navigation, currentUrl}) %>
 
 <main class="main">
-  <!-- content -->
+  <% if(books?.length) { %>
+    <div class="books">
+      <% books.map((item) => { %>
+        <div class="books__item">
+          <a href="/book/<%= item.id %>" class="books__link">
+            <b><%= item.title %></b> <i class="books__link_authors">(<%= item.authors %>)</i>
+          </a>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>Не добавлено ни одной книги! <a href="/add-book">Добавить</a></p>
+  <% } %>
 </main>
 
 <%- include('./main/layoutEnd') %>

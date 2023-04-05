@@ -1,10 +1,12 @@
+const {MAIN, PAGE_ADD_BOOK} = require('../constants/endpoints');
+
 module.exports = [
   {
-    url: '/',
+    url: MAIN,
     name: 'Мои книги',
   },
   {
-    url: '/add-book',
+    url: PAGE_ADD_BOOK,
     name: 'Добавить книгу',
   }
 ];
