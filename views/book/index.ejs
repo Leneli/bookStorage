@@ -1,0 +1,42 @@
+<%- include('../main/layoutStart', {title: metaTitle}) %>
+<%- include('../main/header', {title, navigation, currentUrl}) %>
+
+<main class="main">
+  <% if(book) { %>
+    <div class="book">
+      <div class="book__title">
+        <h1 class="book__title_flex"><%= book.title %></h1>
+        <a href="/edit/<%= book.id %>">[редактировать]</a>
+      </div>
+    
+
+      <div class="book__info">
+        <span class="book__label">Авторы:</span>
+        <span class="book__value"><%= book.authors %></span>
+      </div>
+
+      <div class="book__info">
+        <span class="book__label">Описание книги:</span>
+        <span class="book__value"><%= book.description %></span>
+      </div>
+
+      <div class="book__info">
+        <span class="book__label">Избранное:</span>
+        <span class="book__value"><%= book.favorite %></span>
+      </div>
+
+      <div class="book__info">
+        <span class="book__label">Файл:</span>
+        <span class="book__value"><%= book.fileBookOriginalName || book.fileName %></span>
+        <!-- <a href="<%= book.fileBook %>" target="_blank" class="book__value"><%= book.fileBookOriginalName || book.fileName %></a> -->
+        <form action="/api/books/<%= book.id %>/download" method="get" class="book__form_load_btn">
+          <button type="submit">Скачать</button>
+        </form>
+      </div>
+    </div>
+  <% } else { %>
+    <p>Такой книги не существует...</p>
+  <% } %>
+</main>
+
+<%- include('../main/layoutEnd') %>

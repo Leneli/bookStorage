@@ -82,7 +82,7 @@ router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
 
     fileBookPath = path;
     fileBookName = filename;
-    fileBookOriginalName = originalname;
+    fileBookOriginalName = filename; // originalname; // TODO: encoding
 
     if (!bookTitle) bookTitle = originalname;
   }
@@ -141,7 +141,8 @@ router.get(BOOK_DOWNLOAD, (req, res) => {
 /**
  * PUT - редактировать книгу по ID
  */
-router.put(BOOK_BY_ID, (req, res) => {
+// TODO: PUT method from form
+router.post(BOOK_BY_ID, (req, res) => {
   const {body, params} = req;
   const {id} = params;
 
@@ -152,7 +153,7 @@ router.put(BOOK_BY_ID, (req, res) => {
     return;
   }
 
-  const book = getBooks(id);
+  let book = getBooks(id);
 
   if (!book) {
     res.status(statusCode.NOT_FOUND);
