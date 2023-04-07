@@ -42,6 +42,22 @@ a:active {
   color: coral;
 }
 
+/* Form elements */
+
+button {
+  padding: 5px 10px;
+  background-color: #003153;
+  border-radius: 5px;
+  color: #FFF;
+  border: none;
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: coral;
+}
+
 /* Header */
 .header {
   display: flex;
@@ -128,4 +144,8 @@ a:active {
   min-width: 100px;
   font-size: 0.8em;
   opacity: 0.8;
+}
+
+.book__form_load_btn {
+  margin-left: 16px;
 }

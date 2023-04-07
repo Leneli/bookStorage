@@ -12,22 +12,26 @@
 
       <div class="book__info">
         <span class="book__label">Авторы:</span>
-        <span class="book_value"><%= book.authors %></span>
+        <span class="book__value"><%= book.authors %></span>
       </div>
 
       <div class="book__info">
         <span class="book__label">Описание книги:</span>
-        <span class="book_value"><%= book.description %></span>
+        <span class="book__value"><%= book.description %></span>
       </div>
 
       <div class="book__info">
         <span class="book__label">Избранное:</span>
-        <span class="book_value"><%= book.favorite %></span>
+        <span class="book__value"><%= book.favorite %></span>
       </div>
 
       <div class="book__info">
         <span class="book__label">Файл:</span>
-        <a href="<%= book.fileBook %>" target="_blank" class="book_value"><%= book.fileBookOriginalName || book.fileName %></a>
+        <span class="book__value"><%= book.fileBookOriginalName || book.fileName %></span>
+        <!-- <a href="<%= book.fileBook %>" target="_blank" class="book__value"><%= book.fileBookOriginalName || book.fileName %></a> -->
+        <form action="/api/books/<%= book.id %>/download" method="get" class="book__form_load_btn">
+          <button type="submit">Скачать</button>
+        </form>
       </div>
     </div>
   <% } else { %>
