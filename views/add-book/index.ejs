@@ -2,7 +2,13 @@
 <%- include('../main/header', {title, navigation, currentUrl}) %>
 
 <main class="main">
-  <!-- content -->
+  <h1>Создать книгу</h1>
+  <%- include('./book-form', {
+    action: '/api/books',
+    method: 'post',
+    buttonName: 'Создать',
+    book: {},
+  }) %>
 </main>
 
 <%- include('../main/layoutEnd') %>

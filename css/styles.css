@@ -58,6 +58,22 @@ button:hover {
   background-color: coral;
 }
 
+textarea,
+input[type=text] {
+  padding: 6px 12px;
+  border: 1px solid #00305371;
+  border-radius: 5px;
+  outline: none;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 300;
+  color: #003153;
+}
+textarea:focus,
+input[type=text]:focus {
+  border-color: coral;
+}
+
 /* Header */
 .header {
   display: flex;
@@ -132,6 +148,12 @@ button:hover {
   margin-bottom: 24px;
 }
 
+.book__title_flex {
+  text-overflow: ellipsis;
+  width: 90%;
+  overflow: hidden;
+}
+
 .book__info {
   display: flex;
   width: 100%;
@@ -148,4 +170,35 @@ button:hover {
 
 .book__form_load_btn {
   margin-left: 16px;
+}
+
+/* Books form */
+
+.book-form {
+  margin: 34px 0;
+}
+
+.book-form__label {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  min-height: 40px;
+  margin: 10px 0;
+}
+
+.book-form__label_text {
+  display: block;
+  width: 30%;
+  max-width: 150px;
+}
+
+.book-form__input_text {
+  flex: 1;
+}
+
+.book-form__button_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
 }

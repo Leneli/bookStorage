@@ -48,19 +48,17 @@ router.get(PAGE_ADD_BOOK, (req, res) => {
 });
 
 router.get(PAGE_EDIT_BOOK, (req, res) => {
+  const {id} = req.params;
+  const books = getBooks();
+  const book = books.find((item) => item.id === id);
+
   res.render('edit-book/index', {
     metaTitle: `${config.site_name} | Edit book page`,
-    title: PAGE_EDIT_BOOK, // config.site_name,
+    title: config.site_name,
     navigation,
     currentUrl: PAGE_EDIT_BOOK,
+    book,
   });
 });
 
 module.exports = router;
-
-// Шаблоны:
-
-// // index — просмотр списка всех книг (вывод заголовков);
-// view — информация по конкретной книге;
-// create — создание книги;
-// update — редактирование книги.

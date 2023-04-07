@@ -1,0 +1,30 @@
+<form action="<%= action %>" method="<%= method %>" enctype="multipart/form-data" target="_blank" class="book-form">
+  <label class="book-form__label">
+    <span class="book-form__label_text">Название книги</span>
+    <input type="text" name="title" value="<%= book.title %>" class="book-form__input_text">
+  </label>
+
+  <label class="book-form__label">
+    <span class="book-form__label_text">Заметка о книге</span>
+    <textarea name="description" cols="10" rows="3" class="book-form__input_text"><%= book.description %></textarea>
+  </label>
+
+  <label class="book-form__label">
+    <span class="book-form__label_text">Автор(ы)</span>
+    <input type="text" name="authors" value="<%= book.authors %>" class="book-form__input_text">
+  </label>
+
+  <label class="book-form__label">
+    <span class="book-form__label_text">Избранное</span>
+    <input type="checkbox" <%= book.favorite ? 'checked' : '' %> name="favorite">
+  </label>
+
+  <label class="book-form__label">
+    <span class="book-form__label_text">Файл</span>
+    <input type="file" name="fileBook" accept="application/pdf" class="book-form__input_text">
+  </label>
+
+  <div class="book-form__button_wrapper">
+    <button type="submit"><%= buttonName %></button>
+  </div>
+</form>

@@ -2,7 +2,13 @@
 <%- include('../main/header', {title, navigation, currentUrl}) %>
 
 <main class="main">
-  <!-- content -->
+  <h1>Редактировать книгу «<%= book.title %>»</h1>
+  <%- include('../add-book/book-form', {
+    action: `/api/books/${book.id}`,
+    method: 'post',
+    buttonName: 'Редактировать',
+    book,
+  }) %>
 </main>
 
 <%- include('../main/layoutEnd') %>
