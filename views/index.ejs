@@ -6,6 +6,9 @@
     <div class="books">
       <% books.map((item) => { %>
         <div class="books__item">
+          <% if(item.favorite) { %>
+            ⭐ 
+          <% } %>
           <a href="/book/<%= item.id %>" class="books__link">
             <b><%= item.title %></b> <i class="books__link_authors">(<%= item.authors %>)</i>
           </a>
