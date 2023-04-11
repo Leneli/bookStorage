@@ -85,10 +85,13 @@ input[type=text]:focus {
 }
 
 .logo__text {
+  display: block;
   margin: 0;
+  font-size: 2rem;
   text-transform: lowercase;
   font-variant: small-caps;
   color: #FFF;
+  text-decoration: none;
 }
 
 .nav__link {

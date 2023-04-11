@@ -1,4 +1,14 @@
-<form action="<%= action %>" method="<%= method %>" enctype="multipart/form-data" target="_blank" class="book-form">
+<form
+  action="<%= action %>"
+  method="post"
+  enctype="application/x-www-form-urlencoded | multipart/form-data"
+  accept-charset="UTF-8"
+  target="_blank"
+  class="book-form">
+  <%if (put) { %>
+    <input type="hidden" name="_method" value="put" />
+  <% } %>
+
   <label class="book-form__label">
     <span class="book-form__label_text">Название книги</span>
     <input type="text" name="title" value="<%= book.title %>" class="book-form__input_text">

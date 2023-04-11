@@ -1,13 +1,10 @@
-/**
- * API routes
- */
-
 const express = require('express');
 const router = express.Router();
 
 const {fileMulter} = require('../middleware');
 
 const {getBooks, createBook} = require('../api');
+const {getStore} = require('../store');
 
 const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD} = require('../constants/endpoints');
 const statusCode = require('../constants/responseStatusCode');
@@ -143,10 +140,11 @@ router.get(BOOK_DOWNLOAD, (req, res) => {
  */
 // TODO: PUT method from form
 router.post(BOOK_BY_ID, (req, res) => {
+  const store = getStore();
   const {body, params} = req;
   const {id} = params;
 
-  if (!body) {
+  if (!body || !Object.keys(body).length) {
     res.status(statusCode.BAD_REQUEST);
     res.send({message: 'No body'});
 
@@ -162,8 +160,12 @@ router.post(BOOK_BY_ID, (req, res) => {
     return;
   }
 
-  // TODO: Update store
-  book = {...book, ...body};
+  book = {...book, ...body, favorite: body.favorite || false};
+
+  const updatedStore = {...store};
+
+  updatedStore.books = [book, ...store.books?.filter((item) => item.id !== book.id)]
+  updateStore(updatedStore);
 
   res.status(statusCode.OK);
   res.send(book)
@@ -184,7 +186,7 @@ router.delete(BOOK_BY_ID, (req, res) => {
     return;
   }
 
-  // TODO: Delete book fron store
+  // TODO: Delete book from store
   // books.splice(bookIndex, 1);
 
   res.status(statusCode.OK);

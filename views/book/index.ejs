@@ -4,8 +4,13 @@
 <main class="main">
   <% if(book) { %>
     <div class="book">
-      <div class="book__title">
-        <h1 class="book__title_flex"><%= book.title %></h1>
+      <div class="book__title <%= book.favorite ? 'book__title_favorite' : '' %>">
+        <h1 class="book__title_flex">
+          <% if(book.favorite) { %>
+            ⭐ 
+          <% } %>
+          <%= book.title %>
+        </h1>
         <a href="/edit/<%= book.id %>">[редактировать]</a>
       </div>
     
@@ -18,11 +23,6 @@
       <div class="book__info">
         <span class="book__label">Описание книги:</span>
         <span class="book__value"><%= book.description %></span>
-      </div>
-
-      <div class="book__info">
-        <span class="book__label">Избранное:</span>
-        <span class="book__value"><%= book.favorite %></span>
       </div>
 
       <div class="book__info">

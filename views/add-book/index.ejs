@@ -5,8 +5,8 @@
   <h1>Создать книгу</h1>
   <%- include('./book-form', {
     action: '/api/books',
-    method: 'post',
     buttonName: 'Создать',
+    put: false,
     book: {},
   }) %>
 </main>
