@@ -1,7 +1,3 @@
-/**
- * GET - Home page
- */
-
 const express = require('express');
 const router = express.Router();
 
@@ -9,7 +5,7 @@ const config = require('../../config');
 
 const {getBooks} = require('../api');
 
-const {MAIN, PAGE_ADD_BOOK, PAGE_BOOK, PAGE_EDIT_BOOK} = require('../constants/endpoints');
+const {MAIN, PAGE_ADD_BOOK, PAGE_BOOK, PAGE_EDIT_BOOK, ERROR_NOT_FOUND} = require('../constants/endpoints');
 const navigation = require('../constants/siteNav');
 
 router.get(MAIN, (req, res) => {
@@ -28,6 +24,8 @@ router.get(PAGE_BOOK, (req, res) => {
   const {id} = req.params;
   const books = getBooks();
   const book = books.find((item) => item.id === id);
+
+  if (!book) res.redirect('/404');
 
   res.render('book/index', {
     metaTitle: `${config.site_name} | Book page`,
@@ -52,12 +50,23 @@ router.get(PAGE_EDIT_BOOK, (req, res) => {
   const books = getBooks();
   const book = books.find((item) => item.id === id);
 
+  if (!book) res.redirect('/404');
+
   res.render('edit-book/index', {
     metaTitle: `${config.site_name} | Edit book page`,
     title: config.site_name,
     navigation,
     currentUrl: PAGE_EDIT_BOOK,
     book,
+  });
+});
+
+router.get(ERROR_NOT_FOUND, (req, res) => {
+  res.render('error/404', {
+    metaTitle: `${config.site_name} | Error page`,
+    title: config.site_name,
+    navigation,
+    currentUrl: ERROR_NOT_FOUND,
   });
 });
 
