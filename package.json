@@ -1,11 +1,15 @@
 {
   "name": "bookstorage",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Домашнее задание к занятию «2.1. Express»",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config src/index.js",
-    "start": "pm2 start src/index.js"
+    "server": "node src/index.js",
+    "start": "pm2 start src/index.js",
+    "docker-run": "docker run -it --rm -v ~/GIT/Node/BS:/app -w /app -e PORT=3000 -p 80:3000 node:19.9-alpine3.16 /bin/sh",
+    "docker-build": "docker build -t bookstorage:0.1.0 .",
+    "docker-run-server": "docker run -it --rm -e PORT=3000 -p 80:3000 bookstorage:0.1.0"
   },
   "author": "Elena Kuklina",
   "license": "ISC",
