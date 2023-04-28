@@ -1,6 +1,6 @@
 {
   "name": "bookstorage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Домашнее задание к занятию «2.1. Express»",
   "main": "src/index.js",
   "scripts": {
@@ -8,8 +8,9 @@
     "server": "node src/index.js",
     "start": "pm2 start src/index.js",
     "docker-run": "docker run -it --rm -v ~/GIT/Node/BS:/app -w /app -e PORT=3000 -p 80:3000 node:19.9-alpine3.16 /bin/sh",
-    "docker-build": "docker build -t bookstorage:0.1.0 .",
-    "docker-run-server": "docker run -it --rm -e PORT=3000 -p 80:3000 bookstorage:0.1.0"
+    "docker-build": "docker build -t liafell/bookstorage:$npm_package_version .",
+    "docker-push": "docker push liafell/bookstorage:$npm_package_version",
+    "docker-run-server": "docker run -it --rm -e PORT=3000 -p 80:3000 bookstorage:$npm_package_version"
   },
   "author": "Elena Kuklina",
   "license": "ISC",
