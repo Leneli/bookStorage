@@ -175,6 +175,13 @@ input[type=text]:focus {
   margin-left: 16px;
 }
 
+.book__views_counter {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-style: italic;
+  color: rgb(162, 174, 201);
+}
+
 /* Books form */
 
 .book-form {

@@ -12,6 +12,7 @@ const storeFilePath = `${storeFolderPath}/${storeFileName}`;
 module.exports = {
   site_name: 'Books Storage',
   port: process.env.PORT || 3000,
+  redis_url: process.env.REDIS_URL || 'redis://localhost',
   logs_dir_name: logFolder,
   logs_file_name: logFileName,
   logs_path: logPath,

@@ -1,6 +1,6 @@
 const app = require('./server/server');
 const config = require('../config');
-const port = config.port;
+const {port} = config;
 const {createStore} = require('../src/store');
 
 createStore();
