@@ -1,0 +1,14 @@
+services:
+  storage:
+    image: redis
+    volumes:
+      - ./data:/data
+  counter:
+    image: liafell/bookstorage:0.2.0
+    depends_on:
+      - storage
+    environment:
+      - PORT=3000
+      - REDIS_URL=redis://storage
+    ports:
+      - 80:3000
