@@ -1,7 +1,8 @@
 # apps data
 books
 public
-data
+
+*.rdb
 
 # Logs
 logs
