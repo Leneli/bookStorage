@@ -4,9 +4,9 @@ const router = express.Router();
 const {fileMulter} = require('../middleware');
 
 const {getBooks, createBook} = require('../api');
-const {getStore} = require('../store');
+const {getStore, redisClient} = require('../store');
 
-const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD} = require('../constants/endpoints');
+const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD, BOOK_INCREMENT} = require('../constants/endpoints');
 const statusCode = require('../constants/responseStatusCode');
 
 const {updateStore} = require('../store');
@@ -168,7 +168,7 @@ router.post(BOOK_BY_ID, (req, res) => {
   updateStore(updatedStore);
 
   res.status(statusCode.OK);
-  res.send(book)
+  res.send(book);
 });
 
 /**
@@ -191,6 +191,36 @@ router.delete(BOOK_BY_ID, (req, res) => {
 
   res.status(statusCode.OK);
   res.send({message: 'The book is successfully deleted'})
+});
+
+/**
+ * POST - увеличить счетчик просмотра книги по ID
+ */
+router.post(BOOK_INCREMENT, async (req, res) => {
+  const {params} = req;
+  const {id} = params;
+
+  const book = getBooks(id);
+
+  if (!book) {
+    res.status(statusCode.NOT_FOUND);
+    res.send({message: 'Book not found'});
+
+    return;
+  }
+
+  // counter
+  try {
+    const viewsCounter = await redisClient.incr(id);
+    res.status(statusCode.OK);
+    res.send({book, viewsCounter});
+  } catch (error) {
+    res.status(statusCode.SERVER_ERROR);
+    res.send({
+      errorStatus: statusCode.SERVER_ERROR,
+      errorMessage: `Redis error: ${error.message}`,
+    });
+  }
 });
 
 module.exports = router;

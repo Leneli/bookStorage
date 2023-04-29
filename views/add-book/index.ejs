@@ -5,6 +5,7 @@
   <h1>Создать книгу</h1>
   <%- include('./book-form', {
     action: '/api/books',
+    enctype: 'multipart/form-data',
     buttonName: 'Создать',
     put: false,
     book: {},

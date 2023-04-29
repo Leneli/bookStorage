@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const {redisClient} = require('../store');
+
 const config = require('../../config');
 
 const {getBooks} = require('../api');
@@ -20,17 +22,26 @@ router.get(MAIN, (req, res) => {
   });
 });
 
-router.get(PAGE_BOOK, (req, res) => {
+router.get(PAGE_BOOK, async (req, res) => {
   const {id} = req.params;
   const books = getBooks();
   const book = books.find((item) => item.id === id);
+  let viewsCounter = 0;
 
   if (!book) res.redirect('/404');
+
+  // counter
+  try {
+    viewsCounter = await redisClient.incr(id);
+  } catch (error) {
+    console.log(`🚀 ~ Redis error: ${error.message}`);
+  }
 
   res.render('book/index', {
     metaTitle: `${config.site_name} | Book page`,
     title: config.site_name,
     book,
+    viewsCounter,
     navigation,
     currentUrl: PAGE_BOOK,
   });

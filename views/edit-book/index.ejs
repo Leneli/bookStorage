@@ -5,6 +5,7 @@
   <h1>Редактировать книгу «<%= book.title %>»</h1>
   <%- include('../add-book/book-form', {
     action: `/api/books/${book.id}`,
+    enctype: 'application/x-www-form-urlencoded',
     buttonName: 'Редактировать',
     put: true,
     book,

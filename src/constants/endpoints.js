@@ -8,5 +8,6 @@ module.exports = {
   BOOKS: '/books',
   BOOK_BY_ID: '/books/:id',
   BOOK_DOWNLOAD: '/books/:id/download',
+  BOOK_INCREMENT: '/counter/:id/incr',
   ERROR_NOT_FOUND: '/404',
 };
