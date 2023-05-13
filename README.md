@@ -142,3 +142,48 @@
   authors: "string"
 }
 ``` 
+
+
+#### Решение к заданию 5.2
+
+ - запрос(ы) для *вставки* данных минимум о двух книгах в коллекцию **books**
+ ```javascript
+db.books.insertMany(
+  [
+    {
+      _id: 1,
+      title: "Book #1",
+      description: "Book #1: description",
+      authors: "Book #1: Authors",
+    },
+    {
+      _id: 2,
+      title: "Book #2",
+      description: "Book #2: description",
+      authors: "Book #2: Authors",
+    },
+  ]
+);
+``` 
+
+ - запрос для *поиска* полей документов коллекции **books** по полю *title*
+ ```javascript
+db.books.find({title: 'Book #1'});
+``` 
+
+ - запрос для *редактирования* полей: *description* и *authors* коллекции **books** по *_id* записи
+ ```javascript
+db.books.updateOne(
+  {
+    _id: {
+      $eq: 1,
+    },
+  },
+  {
+    $set: {
+      description: 'New description',
+      authors: 'New authors',
+    },
+  },
+);
+``` 
