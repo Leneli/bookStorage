@@ -118,3 +118,72 @@
 1. Создан docker-compose.yml, запуск которого поднимает оба приложения и позволяет продемонстрировать работу счётчика.
 
 В исходном коде приложения должен появиться docker-compose.yml.
+ 
+---
+
+
+## База данных и хранение данных
+
+#### Задание 5.1
+Чтобы в будущем вам было легче работать с **MongoDB**, изучите раздел 
+документации об использовании [**CRUD Operations**](https://docs.mongodb.com/manual/crud/).
+
+#### Задание 5.2
+В файле **README.md** написать следующие запросы для **MongoDB**:
+ - запрос(ы) для *вставки* данных минимум о двух книгах в коллекцию **books**,
+ - запрос для *поиска* полей документов коллекции **books** по полю *title*,
+ - запрос для *редактирования* полей: *description* и *authors* коллекции **books** по *_id* записи.
+ 
+*Каждый документ коллекции **books** должен содержать следующую структуру данных: 
+```javascript
+{
+  title: "string",
+  description: "string",
+  authors: "string"
+}
+``` 
+
+
+#### Решение к заданию 5.2
+
+ - запрос(ы) для *вставки* данных минимум о двух книгах в коллекцию **books**
+ ```javascript
+db.books.insertMany(
+  [
+    {
+      _id: 1,
+      title: "Book #1",
+      description: "Book #1: description",
+      authors: "Book #1: Authors",
+    },
+    {
+      _id: 2,
+      title: "Book #2",
+      description: "Book #2: description",
+      authors: "Book #2: Authors",
+    },
+  ]
+);
+``` 
+
+ - запрос для *поиска* полей документов коллекции **books** по полю *title*
+ ```javascript
+db.books.find({title: 'Book #1'});
+``` 
+
+ - запрос для *редактирования* полей: *description* и *authors* коллекции **books** по *_id* записи
+ ```javascript
+db.books.updateOne(
+  {
+    _id: {
+      $eq: 1,
+    },
+  },
+  {
+    $set: {
+      description: 'New description',
+      authors: 'New authors',
+    },
+  },
+);
+``` 
