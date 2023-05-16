@@ -3,14 +3,13 @@ const router = express.Router();
 
 const {fileMulter} = require('../middleware');
 
-const {getBooks, createBook} = require('../api');
-const {getStore, redisClient} = require('../store');
+const {getBooks} = require('../api');
+const {redisClient} = require('../store');
 
 const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD, BOOK_INCREMENT} = require('../constants/endpoints');
 const statusCode = require('../constants/responseStatusCode');
 
-const {updateStore} = require('../store');
-
+const BookModel = require('../models/bookModel');
 const Book = require('../entities/book.js');
 
 /**
@@ -24,35 +23,44 @@ router.post(LOGIN, (req, res) => {
 /**
  * GET - получить все книги
  */
-router.get(BOOKS, (req, res) => {
-  const books = getBooks();
+router.get(BOOKS, async (req, res) => {
+  try {
+    const books = await BookModel.find().select('-__v');
 
-  res.status(statusCode.OK);
-  res.send(books);
+    res.status(statusCode.OK);
+    res.send(books);
+  } catch (error) {
+    res.status(statusCode.SERVER_ERROR);
+    res.send(error);
+  }
 });
 
 /**
  * GET - получить книгу по ID
  */
-router.get(BOOK_BY_ID, (req, res) => {
+router.get(BOOK_BY_ID, async (req, res) => {
   const {id} = req.params;
-  const book = getBooks(id);
 
-  if (book) {
-    res.status(statusCode.OK);
-    res.send(book);
+  try {
+    const book = await BookModel.findById(id).select('-__v');
 
-    return;
+    if (book) {
+      res.status(statusCode.OK);
+      res.send(book);
+    } else {
+      res.status(statusCode.NOT_FOUND);
+      res.send({message: 'Book not found'});
+    }
+  } catch (error) {
+    res.status(statusCode.SERVER_ERROR);
+    res.send(error);
   }
-
-  res.status(statusCode.NOT_FOUND);
-  res.send({message: 'Book not found'});
 });
 
 /**
  * POST - создать книгу
  */
-router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
+router.post(BOOKS, fileMulter.single('fileBook'), async (req, res) => {
   const {body} = req;
 
   if (!body) {
@@ -96,10 +104,17 @@ router.post(BOOKS, fileMulter.single('fileBook'), (req, res) => {
       fileBookOriginalName,
     });
 
-    const {statusCode: createStatusCode, message} = createBook(book);
+    try {
+      const newBook = new BookModel(book);
 
-    res.status(createStatusCode);
-    res.send(createStatusCode === statusCode.CREATED ? book : message);
+      await newBook.save();
+
+      res.status(statusCode.CREATED);
+      res.send(newBook);
+    } catch (error) {
+      res.status(statusCode.BAD_REQUEST);
+      res.send(error);
+    }
 
     return;
   }
@@ -139,8 +154,7 @@ router.get(BOOK_DOWNLOAD, (req, res) => {
  * PUT - редактировать книгу по ID
  */
 // TODO: PUT method from form
-router.post(BOOK_BY_ID, (req, res) => {
-  const store = getStore();
+router.post(BOOK_BY_ID, async (req, res) => {
   const {body, params} = req;
   const {id} = params;
 
@@ -151,46 +165,32 @@ router.post(BOOK_BY_ID, (req, res) => {
     return;
   }
 
-  let book = getBooks(id);
-
-  if (!book) {
-    res.status(statusCode.NOT_FOUND);
-    res.send({message: 'Book not found'});
-
-    return;
+  try {
+    await BookModel.findByIdAndUpdate(id, body);
+  
+    res.status(statusCode.OK);
+    res.send(book);
+  } catch (error) {
+    res.status(statusCode.SERVER_ERROR);
+    res.send(error);
   }
-
-  book = {...book, ...body, favorite: body.favorite || false};
-
-  const updatedStore = {...store};
-
-  updatedStore.books = [book, ...store.books?.filter((item) => item.id !== book.id)]
-  updateStore(updatedStore);
-
-  res.status(statusCode.OK);
-  res.send(book);
 });
 
 /**
  * DELETE - удалить книгу по ID
  */
-router.delete(BOOK_BY_ID, (req, res) => {
+router.delete(BOOK_BY_ID, async (req, res) => {
   const {id} = params;
-  const books = getBooks();
-  const bookIndex = books.findIndex((item) => item.id === id);
+  
+  try {
+    await BookModel.deleteOne({_id: id});
 
-  if (bookIndex < 0) {
-    res.status(statusCode.NOT_FOUND);
-    res.send({message: 'Book not found'});
-
-    return;
+    res.status(statusCode.OK);
+    res.send({message: 'The book is successfully deleted'});
+  } catch (error) {
+    res.status(statusCode.SERVER_ERROR);
+    res.send(error);
   }
-
-  // TODO: Delete book from store
-  // books.splice(bookIndex, 1);
-
-  res.status(statusCode.OK);
-  res.send({message: 'The book is successfully deleted'})
 });
 
 /**
