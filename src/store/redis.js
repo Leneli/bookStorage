@@ -5,8 +5,13 @@ const client = redis.createClient({
 });
 
 (async () => {
-  await client.connect();
-  console.log("🚀 ~ REDIS CLIENT STARTED");
+  console.log("🚀 ~ redis URL:", redis_url);
+  try {
+    await client.connect();
+    console.log("🚀 ~ REDIS CLIENT STARTED");
+  } catch (error) {
+    console.log("🚀 ~ REDIS CLIENT FAILED:", error);
+  }
 })();
 
 module.exports = client;
