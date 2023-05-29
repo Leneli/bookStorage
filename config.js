@@ -13,6 +13,7 @@ module.exports = {
   site_name: 'Books Storage',
   port: process.env.PORT || 3000,
   redis_url: process.env.REDIS_URL || 'redis://localhost',
+  mongo_url: process.env.MONGO_URL || 'http://localhost:8081',
   logs_dir_name: logFolder,
   logs_file_name: logFileName,
   logs_path: logPath,

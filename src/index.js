@@ -1,10 +1,21 @@
+const mongoose = require('mongoose');
+
 const app = require('./server/server');
 const config = require('../config');
-const {port} = config;
-const {createStore} = require('../src/store');
 
-createStore();
+const {port, mongo_url} = config;
 
-app.listen(port, () => {
-  console.log(`🚀 ~ App listening on port ${port}`);
-});
+async function appStart (PORT, bdUrl) {
+  try {
+    await mongoose.connect(bdUrl);
+    console.log('🚀 ~ You successfully connected to MongoDB!', bdUrl);
+
+    app.listen(PORT, () => {
+      console.log(`🚀 ~ App listening on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log('🚀 ~ MongoDB error', bdUrl, error);
+  }
+}
+
+appStart(port, mongo_url);
