@@ -4,7 +4,7 @@
   "description": "Домашнее задание к занятию «2.1. Express»",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config src/index.js",
+    "dev": "tsc && nodemon -r dotenv/config src/index.js",
     "build": "tsc --project ./tsconfig.json --watch",
     "server": "node src/index.js",
     "start": "pm2 start src/index.js",
