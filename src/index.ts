@@ -5,7 +5,7 @@ const config = require('../config');
 
 const {port, mongo_url} = config;
 
-async function appStart (PORT, bdUrl) {
+async function appStart (PORT: string, bdUrl: string) {
   try {
     await mongoose.connect(bdUrl);
     console.log('🚀 ~ You successfully connected to MongoDB!', bdUrl);
