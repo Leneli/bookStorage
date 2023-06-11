@@ -10,7 +10,6 @@ const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD, BOOK_INCREMENT} = require('../co
 const statusCode = require('../constants/responseStatusCode');
 
 const BookModel = require('../models/bookModel');
-const Book = require('../entities/book.js');
 
 /**
  * POST - авторизация пользователя
@@ -93,7 +92,7 @@ router.post(BOOKS, fileMulter.single('fileBook'), async (req, res) => {
   }
 
   if (fileBookPath && bookTitle) {
-    const book  = new Book({
+    const book  = {
       title: bookTitle,
       description,
       authors,
@@ -102,7 +101,7 @@ router.post(BOOKS, fileMulter.single('fileBook'), async (req, res) => {
       fileName: fileBookName,
       fileBook: fileBookPath,
       fileBookOriginalName,
-    });
+    };
 
     try {
       const newBook = new BookModel(book);
