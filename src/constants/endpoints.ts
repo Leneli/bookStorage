@@ -1,4 +1,4 @@
-module.exports = {
+export const ENDPOINTS = {
   MAIN: '/',
   PAGE_BOOK: '/book/:id',
   PAGE_ADD_BOOK: '/add-book',

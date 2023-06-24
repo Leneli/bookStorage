@@ -1,6 +1,6 @@
 const {MAIN, PAGE_ADD_BOOK} = require('../constants/endpoints');
 
-module.exports = [
+export const SINE_NAVIGATION = [
   {
     url: MAIN,
     name: 'Мои книги',

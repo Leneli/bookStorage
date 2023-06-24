@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 
 const publicFolder = path.normalize(`${__dirname}/public`);
 const cssFolder = path.normalize(`${__dirname}/css`);
@@ -9,9 +9,9 @@ const storeFolderPath = path.normalize(`${__dirname}/books`);
 const storeFileName = 'books.json';
 const storeFilePath = `${storeFolderPath}/${storeFileName}`;
 
-module.exports = {
+export const CONFIG = {
   site_name: 'Books Storage',
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || '3000',
   redis_url: process.env.REDIS_URL || 'redis://localhost',
   mongo_url: process.env.MONGO_URL || 'http://localhost:8081',
   logs_dir_name: logFolder,
