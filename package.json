@@ -2,9 +2,9 @@
   "name": "bookstorage",
   "version": "0.2.0",
   "description": "Домашнее задание к занятию «2.1. Express»",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc && nodemon -r dotenv/config src/index.js",
+    "dev": "tsc && nodemon -r dotenv/config dist/index.js",
     "build": "tsc --project ./tsconfig.json --watch",
     "server": "node src/index.js",
     "start": "pm2 start src/index.js",
