@@ -1,15 +1,15 @@
+import {BooksRepository} from '../entities/BooksRepository';
+
 const express = require('express');
 const router = express.Router();
 
 const {fileMulter} = require('../middleware');
-
-const {getBooks} = require('../api');
 const {redisClient} = require('../store');
 
 const {LOGIN, BOOKS, BOOK_BY_ID, BOOK_DOWNLOAD, BOOK_INCREMENT} = require('../constants/endpoints');
 const statusCode = require('../constants/responseStatusCode');
 
-const BookModel = require('../models/bookModel');
+const booksContainer = require('../IoC/container');
 
 /**
  * POST - авторизация пользователя
@@ -24,8 +24,9 @@ router.post(LOGIN, (req, res) => {
  */
 router.get(BOOKS, async (req, res) => {
   try {
-    const books = await BookModel.find().select('-__v');
-
+    const repo = booksContainer(BooksRepository);
+    const books = await repo.getBooks();
+  
     res.status(statusCode.OK);
     res.send(books);
   } catch (error) {
@@ -41,7 +42,8 @@ router.get(BOOK_BY_ID, async (req, res) => {
   const {id} = req.params;
 
   try {
-    const book = await BookModel.findById(id).select('-__v');
+    const repo = booksContainer(BooksRepository);
+    const book = await repo.getBook(id);
 
     if (book) {
       res.status(statusCode.OK);
@@ -104,7 +106,8 @@ router.post(BOOKS, fileMulter.single('fileBook'), async (req, res) => {
     };
 
     try {
-      const newBook = new BookModel(book);
+      const repo = booksContainer(BooksRepository);
+      const newBook = await repo.createBook(book);
 
       await newBook.save();
 
@@ -129,10 +132,11 @@ router.post(BOOKS, fileMulter.single('fileBook'), async (req, res) => {
 /**
  * GET - скачать книгу
  */
-router.get(BOOK_DOWNLOAD, (req, res) => {
+router.get(BOOK_DOWNLOAD, async (req, res) => {
   const {params} = req;
   const {id} = params;
-  const book = getBooks(id);
+  const repo = booksContainer(BooksRepository);
+  const book = await repo.getBook(id);
 
   if (!book) {
     res.status(statusCode.NOT_FOUND);
@@ -165,8 +169,9 @@ router.post(BOOK_BY_ID, async (req, res) => {
   }
 
   try {
-    await BookModel.findByIdAndUpdate(id, body);
-  
+    const repo = booksContainer(BooksRepository);
+    const book = await repo.updateBook(id, body);
+
     res.status(statusCode.OK);
     res.send(book);
   } catch (error) {
@@ -182,7 +187,8 @@ router.delete(BOOK_BY_ID, async (req, res) => {
   const {id} = params;
   
   try {
-    await BookModel.deleteOne({_id: id});
+    const repo = booksContainer(BooksRepository);
+    await repo.deleteBook(id);
 
     res.status(statusCode.OK);
     res.send({message: 'The book is successfully deleted'});
@@ -198,8 +204,8 @@ router.delete(BOOK_BY_ID, async (req, res) => {
 router.post(BOOK_INCREMENT, async (req, res) => {
   const {params} = req;
   const {id} = params;
-
-  const book = getBooks(id);
+  const repo = booksContainer(BooksRepository);
+  const book = await repo.getBook(id);
 
   if (!book) {
     res.status(statusCode.NOT_FOUND);

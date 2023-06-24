@@ -1,4 +1,6 @@
-abstract class BooksRepository {
+const BookModel = require('../models/bookModel.js');
+
+export class BooksRepository {
   protected books: IBook[];
 
   constructor(books: IBook[]) {
@@ -9,42 +11,70 @@ abstract class BooksRepository {
    * создание книги
    * @param {IBook} book
    */
-  abstract createBook(book: IBook): void;
+  async createBook (book: IBook) {
+    try {
+      const newBook = new BookModel(book);
+
+      await newBook.save();
+
+      return newBook;
+    } catch (error) {
+      console.error((error as Error).message);
+    }
+  }
 
   /**
    * обновление книги
    * @param {string} id
    */
-  abstract updateBook(id: string): void;
+  async updateBook (id: string, book: IBook) {
+    try {
+      const foundBook = await BookModel.findById(id).select('-__v');
+
+      await foundBook?.update(book);
+
+      return foundBook;
+    }  catch (error) {
+      console.error((error as Error).message);
+    }
+  }
 
   /**
    * получение книги по id
    * @param {string} id
    * @returns IBook | undefined
    */
-  getBook(id: string): IBook | undefined {
-    return this._searchBookById(id);
+  async getBook (id: string) {
+    try {
+      return await BookModel.findById(id).select('-__v');
+    } catch (error) {
+      console.error((error as Error).message);
+    }
   }
 
   /**
    * получение всех книг
    * @returns IBook[]
    */
-  getBooks(): IBook[] {
-    return this.books;
+  async getBooks () {
+    try {
+      return await BookModel.find().select('-__v')
+    } catch (error) {
+      console.error((error as Error).message);
+    }
   }
 
   /**
    * удаление книги
    * @param {string} id
    */
-  deleteBook(id: string): void {
-    this.books = this.books.filter((item) => item.id !== id);
-  }
-
-  private _searchBookById(id: string): IBook | undefined {
-    return this.books.find((item) => item.id === id);
+  async deleteBook (id: string) {
+    try {
+      await BookModel.deleteOne({ _id: id });
+    } catch (error) {
+      console.error((error as Error).message);
+    }
   }
 }
 
-module.exports = {BooksRepository};
+// module.exports = {BooksRepository};
