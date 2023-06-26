@@ -1,4 +1,4 @@
-const BookModel = require('../models/bookModel.js');
+import {BookModel} from '../models/bookModel';
 
 export class BooksRepository {
   protected books: IBook[];
@@ -76,5 +76,3 @@ export class BooksRepository {
     }
   }
 }
-
-// module.exports = {BooksRepository};

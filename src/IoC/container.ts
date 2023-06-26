@@ -6,4 +6,4 @@ const booksContainer = new Container();
 
 booksContainer.bind(BooksRepository).toSelf();
 
-module.exports = booksContainer;
+export {booksContainer};

@@ -1,4 +1,4 @@
-module.exports = {
+export const RESPONSE_STATUS = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,

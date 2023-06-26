@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const app = require('./server/server');
-const config = require('../config');
+import {app} from './server/server';
+import {CONFIG} from './config';
 
-const {port, mongo_url} = config;
+const {port, mongo_url} = CONFIG;
 
 async function appStart (PORT: string, bdUrl: string) {
   try {

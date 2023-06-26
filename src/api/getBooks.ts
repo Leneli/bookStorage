@@ -1,6 +1,6 @@
-const BookModel = require('../models/bookModel');
+import {BookModel} from './../models/bookModel.js'
 
-const getBooks = async (id) => {
+export const getBooks = async (id?: string) => {
   try {
     if (id) {
       const book = await BookModel.findById(id).select('-__v');
@@ -12,8 +12,4 @@ const getBooks = async (id) => {
   } catch (error) {
     console.log("🚀 ~ file: getBooks.js:13 ~ getBooks ~ error:", error);
   }
-};
-
-module.exports = {
-  getBooks,
 };
